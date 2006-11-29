@@ -1,12 +1,11 @@
 Summary: 	The PDF Tool Kit
 Name: 		pdftk
-Version: 	1.12
-Release: 	8%{?dist}
+Version: 	1.41
+Release: 	1%{?dist}
 License:	GPL
-URL: 		http://www.accesspdf.com/pdftk/
+URL: 		http://www.pdfhacks.com/pdftk/
 Source0: 	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
 Source1:        gpl.txt
-Patch1:         pdftk-1.12-rmsid.patch
 Group: 		Applications/Publishing
 BuildRoot: 	%{_tmppath}/%{name}-root
 BuildRequires:	gcc-java
@@ -33,7 +32,6 @@ C++ code to use iText's (itext-paulo) Java classes.
 
 %prep
 %setup -q
-%patch1 -p1 -b .org
 
 %build
 unset CLASSPATH && cd pdftk && make -f Makefile.RedHat && cd -
@@ -56,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed Nov 29 2006 Jochen Schmitt <Jochen herr-schmitt de> 1.41-1
+- New upstream release
+
 * Sun Sep  3 2006 Jochen Schmitt <Jochen herr-schmitt de> 1.12-8
 - Rebuild for FC-6
 
