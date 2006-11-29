@@ -1,7 +1,7 @@
 Summary: 	The PDF Tool Kit
 Name: 		pdftk
 Version: 	1.41
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 License:	GPL
 URL: 		http://www.pdfhacks.com/pdftk/
 Source0: 	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
@@ -54,7 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
-* Wed Nov 29 2006 Jochen Schmitt <Jochen herr-schmitt de> 1.41-1
+* Wed Nov 29 2006 Jochen Schmitt <Jochen herr-schmitt de> 1.41-2
 - New upstream release
 
 * Sun Sep  3 2006 Jochen Schmitt <Jochen herr-schmitt de> 1.12-8
