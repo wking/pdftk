@@ -6,7 +6,9 @@ License:	GPL
 URL: 		http://www.pdfhacks.com/pdftk/
 Source0: 	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
 Source1:        gpl.txt
-Patch1:	        pdftk-1.41-rpmopt.patch
+Patch0:	        pdftk-1.41-rpmopt.patch
+Patch1:	        pdftk-1.41-system-libgcj.patch
+Patch2:	        pdftk-1.41-gcjh.patch
 Group: 		Applications/Publishing
 BuildRoot: 	%{_tmppath}/%{name}-root
 BuildRequires:	gcc-java
@@ -33,7 +35,10 @@ C++ code to use iText's (itext-paulo) Java classes.
 
 %prep
 %setup -q
-%patch1 -p1 -b .org
+%patch0 -p1 -b .rpmopt
+%patch1 -p0 -b .system-libgcj
+%patch2 -p0 -b .gcjh
+rm -rf java_libs/gnu_local java_libs/java_local java_libs/gnu
 
 %build
 unset CLASSPATH && cd pdftk && make -f Makefile.RedHat && cd -
@@ -56,6 +61,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed Apr 11 2007 Thomas Fitzsimmons <fitzsim@redhat.com> - 1.41-4
+- Build against system libgcj.
+- Patch build for new gcjh.
+- Resolves: rhbz#233682 rhbz#233489 rhbz#233514
+
 * Wed Feb 28 2007 Jochen Schmitt <Jochen herr-schmitt de> 1.41-4
 - Rebuild to solve broken deps
 
