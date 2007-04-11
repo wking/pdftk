@@ -1,7 +1,7 @@
 Summary: 	The PDF Tool Kit
 Name: 		pdftk
 Version: 	1.41
-Release: 	4%{?dist}
+Release: 	5%{?dist}
 License:	GPL
 URL: 		http://www.pdfhacks.com/pdftk/
 Source0: 	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
@@ -61,7 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
-* Wed Apr 11 2007 Thomas Fitzsimmons <fitzsim@redhat.com> - 1.41-4
+* Wed Apr 11 2007 Thomas Fitzsimmons <fitzsim@redhat.com> - 1.41-5
 - Build against system libgcj.
 - Patch build for new gcjh.
 - Resolves: rhbz#233682 rhbz#233489 rhbz#233514
