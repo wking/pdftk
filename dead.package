@@ -1,0 +1,3 @@
+The package pdftk was going to EOL, becouse it contains a modified
+copy of iText. IText contains several licensing issue which caused,
+that this package was going into EOL:
