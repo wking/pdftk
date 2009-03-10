@@ -1,0 +1,12 @@
+diff -up pdftk-1.41/pdftk/Makefile.Base.conf pdftk-1.41/pdftk/Makefile.Base
+--- pdftk-1.41/pdftk/Makefile.Base.conf	2009-03-04 18:08:15.000000000 +0100
++++ pdftk-1.41/pdftk/Makefile.Base	2009-03-04 18:08:42.000000000 +0100
+@@ -15,7 +15,7 @@ export java_libs_root= ../java_libs
+ # them into fonts.a resulted in none of these resources appearing in pdftk
+ # (on MinGW gcj 3.4.1)
+ #
+-itext_libs=$(LIBDIR)/gcj/itext/itext-2.1.4.jar.so
++itext_libs=$(LIBDIR)/gcj/itext/itext-${ITEXTVERS}.jar.so
+ 
+ # font metric files, included as resources
+ afms= $(wildcard $(java_libs_root)/com/lowagie/text/pdf/fonts/*.afm)

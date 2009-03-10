@@ -1,0 +1,12 @@
+diff -up pdftk-1.41/pdftk/Makefile.RedHat.gcc44 pdftk-1.41/pdftk/Makefile.RedHat
+--- pdftk-1.41/pdftk/Makefile.RedHat.gcc44	2009-03-05 21:25:40.000000000 +0100
++++ pdftk-1.41/pdftk/Makefile.RedHat	2009-03-05 21:26:15.000000000 +0100
+@@ -26,7 +26,7 @@ export RM= rm
+ # if you want pdftk to ask before overwriting a file, set
+ # ASK_ABOUT_WARNINGS to true; otherwise: false; override this default
+ # with the dont_ask or do_ask command-line options
+-CPPFLAGS= ${RPM_OPT_FLAGS} -DPATH_DELIM=0x2f -DASK_ABOUT_WARNINGS=false -fdollars-in-identifiers -g -fpic
++CPPFLAGS= ${CFLAGS} -DPATH_DELIM=0x2f -DASK_ABOUT_WARNINGS=false -fdollars-in-identifiers -g -fpic
+ CXXFLAGS= -lgcj
+ 
+ # itext compiler flags
