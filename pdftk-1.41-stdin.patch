@@ -1,0 +1,24 @@
+diff -up pdftk-1.41/pdftk/pdftk.cc.org pdftk-1.41/pdftk/pdftk.cc
+--- pdftk-1.41/pdftk/pdftk.cc.org	2009-03-31 17:22:27.000000000 +0200
++++ pdftk-1.41/pdftk/pdftk.cc	2009-03-31 17:27:21.000000000 +0200
+@@ -586,7 +586,10 @@ TK_Session::dump_session_data() const
+ 		for( vector< InputPdf >::const_iterator it= m_input_pdf.begin();
+ 				 it!= m_input_pdf.end(); ++it )
+ 			{
+-				cout << "   " << it->m_filename;
++				if(it->m_filename == "/dev/stdin")
++					 cout << "   <standard input>";
++				else
++				   cout << "   " << it->m_filename;
+ 				if( !it->m_password.empty() ) {
+ 					cout << ", " << it->m_password;
+ 				}
+@@ -976,6 +979,8 @@ TK_Session::TK_Session( int argc, 
+ 
+ 							InputPdf input_pdf;
+ 							input_pdf.m_filename= argv[ii];
++							if(input_pdf.m_filename == "-")
++								input_pdf.m_filename = "/dev/stdin";
+ 							m_input_pdf.push_back( input_pdf );
+ 					}
+ 					else { // use given handle for filename; test, first

@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        13%{?dist}
+Release:        14%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -11,6 +11,7 @@ Source0:        http://www.pdfhacks.com/pdftk/%{name}-%{version}-noitext.tar.bz2
 Patch0:         pdftk-use-internal-itext.patch
 Patch1:         pdftk-1.41-make.patch
 Patch2:         pdftk-1.41-gcc44.patch
+Patch3:		pdftk-1.41-stdin.patch
 Group:          Applications/Publishing
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc-java
@@ -44,6 +45,7 @@ C++ code to use iText's (itext-paulo) Java classes.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1 -b .org
 
 rm -rf java_libs
 
@@ -85,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Tue Mar 31 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-14
+- Patch stdin issue (#492968)
+
 * Tue Mar 10 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-13
 - Move to iText-2.1.5
 
