@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        14%{?dist}
+Release:        15%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -12,6 +12,8 @@ Patch0:         pdftk-use-internal-itext.patch
 Patch1:         pdftk-1.41-make.patch
 Patch2:         pdftk-1.41-gcc44.patch
 Patch3:		pdftk-1.41-stdin.patch
+# Solves ".afm files not found" error. RHBZ#494785:
+Patch4:		pdftk-classpath.patch
 Group:          Applications/Publishing
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc-java
@@ -46,6 +48,7 @@ C++ code to use iText's (itext-paulo) Java classes.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1 -b .org
+%patch4 -p0 -b .classpath
 
 rm -rf java_libs
 
@@ -87,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed Apr  8 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> 1.41-15
+- Patch ".afm files not found" issue (#494785)
+
 * Tue Mar 31 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-14
 - Patch stdin issue (#492968)
 
