@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        16%{?dist}
+Release:        17%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Tue Apr 21 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-17
+- Bump release number
+
 * Tue Apr 21 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-16
 - Remove stdin patch, add Req. to modified iText release (BZ #495574)
 
