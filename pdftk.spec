@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        15%{?dist}
+Release:        16%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -11,7 +11,6 @@ Source0:        http://www.pdfhacks.com/pdftk/%{name}-%{version}-noitext.tar.bz2
 Patch0:         pdftk-use-internal-itext.patch
 Patch1:         pdftk-1.41-make.patch
 Patch2:         pdftk-1.41-gcc44.patch
-Patch3:		pdftk-1.41-stdin.patch
 # Solves ".afm files not found" error. RHBZ#494785:
 Patch4:		pdftk-classpath.patch
 Group:          Applications/Publishing
@@ -20,8 +19,9 @@ BuildRequires:  gcc-java
 BuildRequires:  libgcj-devel
 BuildRequires:  java-devel >= 1:1.6.0
 
-# Requires itext-2.1.4-3
 BuildRequires:  itext >= %{itextvers}
+
+Requires:	itext >= 2.1.5-2
 
 %description
 If PDF is electronic paper, then pdftk is an electronic staple-remover,
@@ -47,7 +47,6 @@ C++ code to use iText's (itext-paulo) Java classes.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1 -b .org
 %patch4 -p0 -b .classpath
 
 rm -rf java_libs
@@ -90,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Tue Apr 21 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-16
+- Remove stdin patch, add Req. to modified iText release (BZ #495574)
+
 * Wed Apr  8 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> 1.41-15
 - Patch ".afm files not found" issue (#494785)
 
