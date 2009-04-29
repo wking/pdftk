@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        17%{?dist}
+Release:        18%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed Apr 29 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-18
+- Add bcprov and bcmail to classpath patch (BZ #497986)
+
 * Tue Apr 21 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-17
 - Bump release number
 
