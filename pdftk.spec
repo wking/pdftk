@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        18%{?dist}
+Release:        19%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -53,7 +53,7 @@ rm -rf java_libs
 
 %build
 # Requires as a workaround for gcc BZ #39380
-export CFLAGS="${RPM_OPT_FLAGS} -O0"
+export CFLAGS="${RPM_OPT_FLAGS}"
 jar tf %{_javadir}/itext-%{itextvers}.jar | grep '\.class$' | sed 's/\.class//' | sed 's|/|\.|g' > classes
     gjavah -d java_libs -cni -classpath=%{_javadir}/itext-%{itextvers}.jar \
        `cat classes`
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed May  6 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-19
+- Remove workaround for brocken gcj
+
 * Wed Apr 29 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-18
 - Add bcprov and bcmail to classpath patch (BZ #497986)
 
