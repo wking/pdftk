@@ -1,9 +1,9 @@
-%define itextvers 2.1.5
+%define itextvers 2.1.6
 
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        19%{?dist}
+Release:        20%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -12,7 +12,7 @@ Patch0:         pdftk-use-internal-itext.patch
 Patch1:         pdftk-1.41-make.patch
 Patch2:         pdftk-1.41-gcc44.patch
 # Solves ".afm files not found" error. RHBZ#494785:
-Patch4:		pdftk-classpath.patch
+Patch4:         pdftk-classpath.patch
 Group:          Applications/Publishing
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc-java
@@ -21,7 +21,7 @@ BuildRequires:  java-devel >= 1:1.6.0
 
 BuildRequires:  itext >= %{itextvers}
 
-Requires:	itext >= 2.1.5-2
+Requires:       itext >= 2.1.6-1
 
 %description
 If PDF is electronic paper, then pdftk is an electronic staple-remover,
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Jun 26 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> 1.41-20
+- Build against itext-2.1.6
+
 * Wed May  6 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-19
 - Remove workaround for brocken gcj
 

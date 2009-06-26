@@ -12,17 +12,17 @@
 +    char itext_classpath[1024];
 +    char *environ_classpath = getenv ("CLASSPATH");
 +
-+    FILE *p = popen ("/usr/bin/build-classpath itext bcprov bcmail", "r");
++    FILE *p = popen ("/usr/bin/build-classpath itext bcprov bcmail bctsp", "r");
 +    if (!p)
 +      {
-+        perror ("Can't popen /usr/bin/build-classpath itext bcprov bcmail");
++        perror ("Can't popen /usr/bin/build-classpath itext bcprov bcmail bctsp");
 +        exit (1);
 +      }
 +
 +    char *s = fgets(itext_classpath, sizeof itext_classpath, p);
 +    if (!s)
 +      {
-+        perror ("Can't get ouput from /usr/bin/build-classpath itext bcprov bcmail");
++        perror ("Can't get ouput from /usr/bin/build-classpath itext bcprov bcmail bctsp");
 +        exit (1);
 +      }
 +
