@@ -1,9 +1,9 @@
-%define itextvers 2.1.6
+%global itextvers 2.1.7
 
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        20%{?dist}
+Release:        21%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -21,7 +21,7 @@ BuildRequires:  java-devel >= 1:1.6.0
 
 BuildRequires:  itext >= %{itextvers}
 
-Requires:       itext >= 2.1.6-1
+Requires:       itext >= 2.1.7-1
 
 %description
 If PDF is electronic paper, then pdftk is an electronic staple-remover,
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Jul  9 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> 1.41-21
+- Build against itext-2.1.7
+
 * Fri Jun 26 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> 1.41-20
 - Build against itext-2.1.6
 
