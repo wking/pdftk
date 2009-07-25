@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        21%{?dist}
+Release:        22%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.41-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Thu Jul  9 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> 1.41-21
 - Build against itext-2.1.7
 
