@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        22%{?dist}
+Release:        23%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -21,7 +21,7 @@ BuildRequires:  java-devel >= 1:1.6.0
 
 BuildRequires:  itext >= %{itextvers}
 
-Requires:       itext >= 2.1.7-1
+Requires:       itext%{?_isa} >= 2.1.7-1
 
 %description
 If PDF is electronic paper, then pdftk is an electronic staple-remover,
@@ -71,9 +71,9 @@ install -m 0644 debian/pdftk.1 $RPM_BUILD_ROOT/%{_mandir}/man1/pdftk.1
 # /usr/lib64/gcj/itext/itext-x.y.z.jar.so
 %define _use_internal_dependency_generator 0
 cat << \EOF > %{name}.req
-#!%{_buildshell}
+!%{_buildshell}
 grep -v %{_docdir} - | %{__find_requires} $* \
-     | sed 's@\(itext-[0-9.]*\.jar\.so\)\(()(64bit)\)\?@\1@'
+    | sed 's@\(itext-[0-9.]*\.jar\.so\)\(()(64bit)\)\?@\1@'
 EOF
 
 %define __find_requires %{_builddir}/%{name}-%{version}/%{name}.req
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Tue Nov 10 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-23
+- Add %%{?_isa} to the iText req.
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.41-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
