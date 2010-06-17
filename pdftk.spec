@@ -1,9 +1,9 @@
-%global itextvers 2.1.7
+%global itextvers 5.0.2
 
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        23%{?dist}
+Release:        24%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -49,6 +49,10 @@ C++ code to use iText's (itext-paulo) Java classes.
 %patch2 -p1
 %patch4 -p0 -b .classpath
 
+cd pdftk
+find -type f -exec sed -i -e 's|com/lowagie|com/itextpdf|g' \
+     	     	         -e 's|com::lowagie|com::itextpdf|g' {} \;
+cd ..
 rm -rf java_libs
 
 %build
@@ -73,7 +77,7 @@ install -m 0644 debian/pdftk.1 $RPM_BUILD_ROOT/%{_mandir}/man1/pdftk.1
 cat << \EOF > %{name}.req
 !%{_buildshell}
 grep -v %{_docdir} - | %{__find_requires} $* \
-    | sed 's@\(itext-[0-9.]*\.jar\.so\)\(()(64bit)\)\?@\1@'
+    | sed 's@\(itext-[0-9.]*\.jar\.so@d'
 EOF
 
 %define __find_requires %{_builddir}/%{name}-%{version}/%{name}.req
@@ -89,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Jun 17 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-24
+- Fix find_requires hack to avoid duplicate req. (#602048)
+
 * Tue Nov 10 2009 Jochen Schmitt <Jochen herr-schmitt de> 1.41-23
 - Add %%{?_isa} to the iText req.
 
