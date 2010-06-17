@@ -1,9 +1,9 @@
-%global itextvers 5.0.2
+%global itextvers 2.1.7
 
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        24%{?dist}
+Release:        25%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -93,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Jun 17 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-25
+- Remove experimental changes
+
 * Thu Jun 17 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-24
 - Fix find_requires hack to avoid duplicate req. (#602048)
 
