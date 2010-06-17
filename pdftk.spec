@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        25%{?dist}
+Release:        26%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -49,10 +49,6 @@ C++ code to use iText's (itext-paulo) Java classes.
 %patch2 -p1
 %patch4 -p0 -b .classpath
 
-cd pdftk
-find -type f -exec sed -i -e 's|com/lowagie|com/itextpdf|g' \
-     	     	         -e 's|com::lowagie|com::itextpdf|g' {} \;
-cd ..
 rm -rf java_libs
 
 %build
@@ -93,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Jun 17 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-26
+- Remove some other exerimental stuff
+
 * Thu Jun 17 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-25
 - Remove experimental changes
 
