@@ -3,7 +3,7 @@
 Summary:        The PDF Tool Kit
 Name:           pdftk
 Version:        1.41
-Release:        26%{?dist}
+Release:        27%{?dist}
 License:        GPLv2+
 URL:            http://www.pdfhacks.com/pdftk/
 # Remove java-lib/com because it's contains licensing issue
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed Aug  4 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-27
+- Rebuild for new gcj release (#619187)
+
 * Thu Jun 17 2010 Jochen Schmitt <Jochen herr-schmitt de> 1.41-26
 - Remove some other exerimental stuff
 
