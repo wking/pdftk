@@ -55,8 +55,11 @@
 
 #include "com/lowagie/text/Document.h"
 #include "com/lowagie/text/Rectangle.h"
+// Ewww, PdfName has a field called NULL.
+#undef NULL
 #include "com/lowagie/text/pdf/PdfObject.h"
 #include "com/lowagie/text/pdf/PdfName.h"
+#define NULL __null
 #include "com/lowagie/text/pdf/PdfString.h"
 #include "com/lowagie/text/pdf/PdfNumber.h"
 #include "com/lowagie/text/pdf/PdfArray.h"
@@ -1363,11 +1366,12 @@ ReplaceXmp( itext::PdfReader* reader_p,
 				if( xmp_str_p ) {
 					xmp_str_p->put( itext::PdfName::TYPE, itext::PdfName::METADATA );
 					xmp_str_p->put( itext::PdfName::SUBTYPE, itext::PdfName::XML );
-			
-					itext::PdfIndirectReference* xmp_str_ref_p=
-						(itext::PdfIndirectReference*)reader_p->getPRIndirectReference( xmp_str_p );
 
-					catalog_p->put( itext::PdfName::METADATA, xmp_str_ref_p );
+					//                             FIXME: PdfReader.getPRIndirectReference is absent from itext-2.1.7			
+//					itext::PdfIndirectReference* xmp_str_ref_p=
+//						(itext::PdfIndirectReference*)reader_p->getPRIndirectReference( xmp_str_p );
+
+//					catalog_p->put( itext::PdfName::METADATA, xmp_str_ref_p );
 				}
 				else {
 					ret_val_b= false;

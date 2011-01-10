@@ -72,9 +72,9 @@ export RMFLAGS= -vf
 # only effects libraries following option on the command line
 #
 #  
-export CPPFLAGS= -DPATH_DELIM=0x2f -DASK_ABOUT_WARNINGS=false -DUNBLOCK_SIGNALS -fdollars-in-identifiers
-export CXXFLAGS= -Wall -Wextra -Weffc++ -O2
-export GCJFLAGS= -Wall -Wextra -O2
+export CPPFLAGS= -DPATH_DELIM=0x2f -DASK_ABOUT_WARNINGS=false -DUNBLOCK_SIGNALS -fdollars-in-identifiers ${CFLAGS} -fpic
+export CXXFLAGS= -Wall -Wextra -Weffc++ -O2 ${CFLAGS} -fpic
+export GCJFLAGS= -Wall -Wextra -O2 ${CFLAGS} -fpic
 export GCJHFLAGS= -force
 export LDLIBS= -lgcj
 

@@ -59,7 +59,10 @@
 
 #include "com/lowagie/text/Document.h"
 #include "com/lowagie/text/Rectangle.h"
+// Ewww, PdfName has a field called NULL.
+#undef NULL
 #include "com/lowagie/text/pdf/PdfName.h"
+#define NULL __null
 #include "com/lowagie/text/pdf/PdfString.h"
 #include "com/lowagie/text/pdf/PdfNumber.h"
 #include "com/lowagie/text/pdf/PdfArray.h"
@@ -193,14 +196,19 @@ TK_Session::add_reader( InputPdf* input_pdf_p,
 		// store in this java object so the gc can trace it
 		g_dont_collect_p->addElement( reader );
 
-		input_pdf_p->m_authorized_b= ( !reader->encrypted || reader->passwordIsOwner );
+		input_pdf_p->m_authorized_b= reader->isOpenedWithFullPermissions();
 		if( !input_pdf_p->m_authorized_b ) {
 			open_success_b= false;
 		}
 	}
 	catch( java::io::IOException* ioe_p ) { // file open error
-		if( ioe_p->getMessage()->equals( JvNewStringUTF( "Bad password" ) ) ) {
+		if( ioe_p->getMessage()->equals( JvNewStringUTF( "Bad user password" ) ) ) {
 			input_pdf_p->m_authorized_b= false;
+		}
+		else {
+			cerr << string((const char*) elements(ioe_p->getMessage()->getBytes()),
+										 (int) ioe_p->getMessage()->getBytes()->length)
+					 << endl;
 		}
 		open_success_b= false;
 	}
@@ -2182,14 +2190,14 @@ TK_Session::create_output()
 				output_doc_p->addCreator( jv_creator_p );
 
 				// un/compress output streams?
-				if( m_output_uncompress_b ) {
-					writer_p->filterStreams= true;
-					writer_p->compressStreams= false;
-				}
-				else if( m_output_compress_b ) {
-					writer_p->filterStreams= false;
-					writer_p->compressStreams= true;
-				}
+//				if( m_output_uncompress_b ) {
+//					writer_p->filterStreams= true;
+//					writer_p->compressStreams= false;
+//				}
+//				else if( m_output_compress_b ) {
+//					writer_p->filterStreams= false;
+//					writer_p->compressStreams= true;
+//				}
 
 				// encrypt output?
 				if( m_output_encryption_strength!= none_enc ||
@@ -2198,7 +2206,7 @@ TK_Session::create_output()
 					{
 						// if no stregth is given, default to 128 bit,
 						// (which is incompatible w/ Acrobat 4)
-						bool bit128_b=
+						jboolean bit128_b=
 							( m_output_encryption_strength!= bits40_enc );
 
 						writer_p->setEncryption( output_user_pw_p,
@@ -2222,7 +2230,8 @@ TK_Session::create_output()
 							input_reader_p->getPdfObject( trailer_p->get( itext::PdfName::ID ) );
 						if( file_id_p && file_id_p->isArray() ) {
 
-							writer_p->setFileID( file_id_p );
+							// Absent from itext-2.1.7
+//							writer_p->setFileID( file_id_p );
 						}
 					}
 
@@ -2328,12 +2337,14 @@ TK_Session::create_output()
 
 					// un/compress output streams?
 					if( m_output_uncompress_b ) {
-						writer_p->filterStreams= true;
-						writer_p->compressStreams= false;
+					// Absent from itext-2.1.7
+//						writer_p->filterStreams= true;
+//						writer_p->compressStreams= false;
 					}
 					else if( m_output_compress_b ) {
-						writer_p->filterStreams= false;
-						writer_p->compressStreams= true;
+						// Absent from itext-2.1.7
+//						writer_p->filterStreams= false;
+//						writer_p->compressStreams= true;
 					}
 
 					// encrypt output?
@@ -2343,7 +2354,7 @@ TK_Session::create_output()
 						{
 							// if no stregth is given, default to 128 bit,
 							// (which is incompatible w/ Acrobat 4)
-							bool bit128_b=
+							jboolean bit128_b=
 								( m_output_encryption_strength!= bits40_enc );
 
 							writer_p->setEncryption( output_user_pw_p,
@@ -2589,13 +2600,15 @@ TK_Session::create_output()
 				// un/compress output streams?
 				if( m_output_uncompress_b ) {
 					add_marks_to_pages( input_reader_p );
-					writer_p->filterStreams= true;
-					writer_p->compressStreams= false;
+					// Absent from itext-2.1.7
+//					writer_p->filterStreams= true;
+//					writer_p->compressStreams= false;
 				}
 				else if( m_output_compress_b ) {
 					remove_marks_from_pages( input_reader_p );
-					writer_p->filterStreams= false;
-					writer_p->compressStreams= true;
+					// Absent from itext-2.1.7
+//					writer_p->filterStreams= false;
+//					writer_p->compressStreams= true;
 				}
 
 				// encrypt output?
@@ -2606,7 +2619,7 @@ TK_Session::create_output()
 
 						// if no stregth is given, default to 128 bit,
 						// (which is incompatible w/ Acrobat 4)
-						bool bit128_b=
+						jboolean bit128_b=
 							( m_output_encryption_strength!= bits40_enc );
 
 						writer_p->setEncryption( output_user_pw_p,
@@ -2621,8 +2634,10 @@ TK_Session::create_output()
 					{
 						itext::AcroFields* fields_p= writer_p->getAcroFields();
 						fields_p->setGenerateAppearances( true ); // have iText create field appearances
-						if( ( fdf_reader_p && fields_p->setFields( fdf_reader_p ) ) ||
-								( xfdf_reader_p && fields_p->setFields( xfdf_reader_p ) ) )
+						if( fdf_reader_p )
+							fields_p->setFields( fdf_reader_p );
+						if(     xfdf_reader_p )
+							fields_p->setFields( xfdf_reader_p );
 							{ // Rich Text input found
 
 								// set the PDF so that Acrobat will create appearances;
@@ -2688,16 +2703,16 @@ TK_Session::create_output()
 							doc_page_size_p= doc_page_size_p->rotate();
 						}
 
-						jfloat h_scale= doc_page_size_p->width() / mark_page_size_p->width();
-						jfloat v_scale= doc_page_size_p->height() / mark_page_size_p->height();
+						jfloat h_scale= doc_page_size_p->getWidth() / mark_page_size_p->getWidth();
+						jfloat v_scale= doc_page_size_p->getHeight() / mark_page_size_p->getHeight();
 						jfloat mark_scale= (h_scale< v_scale) ? h_scale : v_scale;
 
-						jfloat h_trans= (jfloat)(doc_page_size_p->left()- mark_page_size_p->left()* mark_scale +
-																		 (doc_page_size_p->width()- 
-																			mark_page_size_p->width()* mark_scale) / 2.0);
-						jfloat v_trans= (jfloat)(doc_page_size_p->bottom()- mark_page_size_p->bottom()* mark_scale +
-																		 (doc_page_size_p->height()- 
-																			mark_page_size_p->height()* mark_scale) / 2.0);
+						jfloat h_trans= (jfloat)(doc_page_size_p->getLeft()- mark_page_size_p->getLeft()* mark_scale +
+																		 (doc_page_size_p->getWidth()- 
+																			mark_page_size_p->getWidth()* mark_scale) / 2.0);
+						jfloat v_trans= (jfloat)(doc_page_size_p->getBottom()- mark_page_size_p->getBottom()* mark_scale +
+																		 (doc_page_size_p->getHeight()- 
+																			mark_page_size_p->getHeight()* mark_scale) / 2.0);
           
 						com::lowagie::text::pdf::PdfContentByte* content_byte_p= 
 							( background_b ) ? writer_p->getUnderContent( ii ) : writer_p->getOverContent( ii );
@@ -2714,20 +2729,20 @@ TK_Session::create_output()
 																					 0, -1* mark_scale,
 																					 mark_scale, 0,
 																					 h_trans, 
-																					 v_trans+ mark_page_size_p->height()* mark_scale );
+																					 v_trans+ mark_page_size_p->getHeight()* mark_scale );
 						}
 						else if( mark_page_rotation== 180 ) {
 							content_byte_p->addTemplate( mark_page_p, 
 																					 -1* mark_scale, 0,
 																					 0, -1* mark_scale,
-																					 h_trans+ mark_page_size_p->width()* mark_scale, 
-																					 v_trans+ mark_page_size_p->height()* mark_scale );
+																					 h_trans+ mark_page_size_p->getWidth()* mark_scale, 
+																					 v_trans+ mark_page_size_p->getHeight()* mark_scale );
 						}
 						else if( mark_page_rotation== 270 ) {
 							content_byte_p->addTemplate( mark_page_p, 
 																					 0, mark_scale,
 																					 -1* mark_scale, 0,
-																					 h_trans+ mark_page_size_p->width()* mark_scale, v_trans );
+																					 h_trans+ mark_page_size_p->getWidth()* mark_scale, v_trans );
 						}
 					}
 				}
@@ -2739,7 +2754,7 @@ TK_Session::create_output()
 				}
 
 				// done; write output
-				writer_p->close();
+				writer_p->close(NULL);
 			}
 			break;
 
@@ -2889,6 +2904,44 @@ Bug-Debian: http://bugs.debian.org/560594
 			 strcmp( argv[ii], "-h" )== 0 );
 	}
 
+  {
+    // Set up CLASSPATH so that we can find property files in
+    // itext.jar.  Do this the official way, calling build-classpath.
+
+    char new_classpath[4096];
+    char itext_classpath[1024];
+    char *environ_classpath = getenv ("CLASSPATH");
+
+    FILE *p = popen ("/usr/bin/build-classpath itext bcprov bcmail bctsp", "r");
+    if (!p)
+      {
+        perror ("Can't popen /usr/bin/build-classpath itext bcprov bcmail bctsp");
+        exit (1);
+      }
+
+    char *s = fgets(itext_classpath, sizeof itext_classpath, p);
+    if (!s)
+      {
+        perror ("Can't get ouput from /usr/bin/build-classpath itext bcprov bcmail bctsp");
+        exit (1);
+      }
+
+    char *nl = strchr (itext_classpath, '\n');
+    if (nl)
+      *nl = 0;
+
+    pclose (p);
+
+    strcpy (new_classpath, "CLASSPATH=");
+    strncat (new_classpath, itext_classpath, sizeof new_classpath);
+    if (environ_classpath)
+      {
+        strncat (new_classpath, ":", sizeof new_classpath);
+        strncat (new_classpath, environ_classpath, sizeof new_classpath);
+      }
+    putenv (new_classpath);
+  }
+
 	if( help_b ) {
 		describe_full();
 	}
@@ -2903,15 +2956,15 @@ Bug-Debian: http://bugs.debian.org/560594
 			JvCreateJavaVM(NULL);
 			JvAttachCurrentThread(NULL, NULL);
 
-			JvInitClass(&java::System::class$);
-			JvInitClass(&java::util::ArrayList::class$);
-			JvInitClass(&java::util::Iterator::class$);
+//			JvInitClass(&java::System::class$);
+//			JvInitClass(&java::util::ArrayList::class$);
+//			JvInitClass(&java::util::Iterator::class$);
 
-			JvInitClass(&itext::PdfObject::class$);
-			JvInitClass(&itext::PdfName::class$);
-			JvInitClass(&itext::PdfDictionary::class$);
-			JvInitClass(&itext::PdfOutline::class$);
-			JvInitClass(&itext::PdfBoolean::class$);
+//			JvInitClass(&itext::PdfObject::class$);
+//			JvInitClass(&itext::PdfName::class$);
+//			JvInitClass(&itext::PdfDictionary::class$);
+//			JvInitClass(&itext::PdfOutline::class$);
+//			JvInitClass(&itext::PdfBoolean::class$);
 
 			TK_Session tk_session( argc, argv );
 

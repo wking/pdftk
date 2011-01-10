@@ -16,7 +16,7 @@
 
 export JAVALIBPATH= ../java
 
-JAVALIB= $(JAVALIBPATH)/java_lib.o
+JAVALIB= $(LIBDIR)/gcj/itext/itext-$(ITEXTVERS).jar.so
 
 ifdef USE_LOCAL_LIBGCJ
 # passed on to next makefile
@@ -29,7 +29,7 @@ endif
 #
 CPPFLAGS+= -DPDFTK_VER=\"1.44\"
 
-all : javalib pdftk
+all : pdftk
 
 javalib :
 	$(MAKE) -f Makefile -iC $(JAVALIBPATH) all
