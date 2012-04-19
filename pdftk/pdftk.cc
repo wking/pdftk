@@ -2884,17 +2884,6 @@ int main(int argc, char** argv)
 	sigprocmask( SIG_SETMASK, &sigmask, 0 );
 #endif
 
-	/*
-Description: Setting environment LANG=C to circumvent libgcj10 exception with locale de_AT.UTF-8
- This patch is a workaround to an ArrayIndexOutOfBoundsException
- evoked in java.text.SimpleDateFormat.formatWithAttribute (libgcj10, Version 4.4.2-4)
- The exception occures only between April and December and with the de_AT-UTF.8 locale.
-Author: Johann Felix Soden <johfel@gmx.de>
-Bug-Debian: http://bugs.debian.org/560594
-	*/
-	static char my_lang[]="LANG=C";
-	putenv(my_lang);
-
 	for( int ii= 1; ii< argc; ++ii ) {
 		version_b=
 			(version_b || 
