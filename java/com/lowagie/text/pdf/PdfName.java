@@ -903,6 +903,8 @@ public class PdfName extends PdfObject implements Comparable{
     /** A name */
     public static final PdfName USETHUMBS = new PdfName("UseThumbs");
     /** A name */
+    public static final PdfName UTF_8 = new PdfName("utf_8");
+    /** A name */
     public static final PdfName V = new PdfName("V");
     /** A name */
     public static final PdfName VERISIGN_PPKVS = new PdfName("VeriSign.PPKVS");
