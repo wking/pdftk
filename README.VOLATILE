@@ -1,0 +1,28 @@
+I have been unable to track down a version control repository for
+pdftk, so this branch is my attempt to reconstruct the history from
+tarballs.  It will be rebased to include new tarballs as they are
+discovered, so DO NOT BASE ANY DEVELOPEMENT WORK ON THIS BRANCH.
+
+Here are the sources for the tarballs used in this reconstruction:
+
+* http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk-1.45-src.zip
+* http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk-1.44-src.zip
+* http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk-1.43-src.zip
+* http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk-1.41.tar.gz
+* https://launchpad.net/ubuntu/+archive/primary/+files/pdftk_1.40.orig.tar.gz
+* http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk-1.12.tar.gz
+* https://launchpad.net/ubuntu/+archive/primary/+files/pdftk_1.12.orig.tar.gz
+
+The commit messages and release dates came from `changelog.html`,
+which is currently online at:
+
+* http://www.pdflabs.com/docs/pdftk-version-history/
+
+SHA1s for each source tarball:
+
+b4d54302cf3d53c137acb5b995b03c4f7dab7f41  pdftk-1.12.tar.gz
+5344dbf81e8b42145d9738b092c48cd0a653661d  pdftk_1.40.orig.tar.gz
+256583800c213419a845b28fe9ad5baccceddf80  pdftk-1.41.tar.gz
+ab701140a4eb78f0c855144a375fd52a8e6b0734  pdftk-1.43-src.zip
+7cb137dcba885caff32ff96b7e11c9dc4ce2cba7  pdftk-1.44-src.zip
+a46aada9ea212c17fd38c5a047aeaee7eebe5351  pdftk-1.45-src.zip
